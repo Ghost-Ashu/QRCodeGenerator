@@ -1,3 +1,4 @@
-﻿Flask
+gunicorn
+Flask
 qrcode
 pillow
