@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Handjet:wght@300;700&display=swap');
+      </style>
+    <style>
+
+        
+        body 
+        {  font-family: 'Handjet', cursive;
+            background-color: #0f1c29;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        
+        h1 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 50px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        form {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="color"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        button[type="submit"] {
+            background-color: #39ff14; /* Neon Green color */
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            background-color: #38e218;
+        }
+        h2 {
+            margin-top: 20px;
+            color: #fff;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+            input[type="text"].jscolor {
+        width: 80px; /* Adjust this value as needed */
+        padding: 6px; /* Adjust this value as needed */
+    }
+
+        .download-link {
+    display: inline-block;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.download-button {
+    background-color: #39ff14;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.download-button:hover {
+    background-color: #38e218;
+}
+
+
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        img#qr-code {
+    border: 2px solid #39ff14; /* Neon Green color */
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0px 0px 10px rgba(57, 255, 20, 0.7); /* Neon Green shadow */
+}
+    </style>
+
+    <!-- Include Knockout.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-min.js"></script>
+<!-- Include Colorpicker library (example using jQuery Colorpicker) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/css/bootstrap-colorpicker.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.6/jscolor.min.js"></script>
+    <script>
+        jscolor.installByClassName('jscolor');
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: '#ffffff'
+                    },
+                    shape: {
+                        type: 'circle',
+                        stroke: {
+                            width: 0,
+                            color: '#000000'
+                        }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 4,
+                        random: true,
+                        anim: {
+                            enable: false,
+                            speed: 40,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: false
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: 'none',
+                        random: true,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        });
+    </script>
+ <!-- Your existing code... -->
+
+<script>
+    // Your existing JavaScript code
+    
+    // ViewModel for Knockout.js
+    function viewModel() {
+        var self = this;
+
+        // Other observables and functions ...
+
+        self.QRtext = ko.observable(''); // Define the QRtext observable
+        self.fg = ko.observable('');
+        self.bg = ko.observable('');
+
+        // Modify QRlink function to include color parameters
+        self.QRlink = ko.pureComputed(function () {
+            var qr_link = self.fg().replace('#', '') + '&bgcolor=' + self.bg().replace('#', '') + '&ecc=' + self.quality()['shorthand'] + '&format=' + self.format()['shorthand'] + '&data=' + self.QRtext();
+            return qr_link;
+        });
+
+        // Other functions ...
+
+        // Clear all inputs, including colors
+        self.clearAll = function () {
+            self.QRtext('');
+            self.fg('');
+            self.bg('');
+        };
+
+        // Ensure that updates are not too frequent
+        self.QRlink.extend({ rateLimit: 100 });
+    }
+
+    ko.applyBindings(new viewModel());
+
+    $(function () {
+        $('.color-select').colorpicker({
+            useAlpha: false,
+        });
+    });
+</script>
+
+<!-- Rest of your code... -->
+
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="content">
+        <h1>QR Code Generator</h1>
+        <form method="POST">
+            <label for="url">ENTER URL</label>
+            <input type="text" id="url" name="url" required>
+            
+            <br>
+ <!-- Rest of your code...            <label for="fgcolor" style="display: block;">Choose Foreground Color:</label>
+            <input type="text" class="jscolor color-select" id="fgcolor" name="fgcolor" data-bind="value: fg"> -->
+            
+            
+            <label for="bgcolor" style="display: block;">Choose Background Color:</label>
+            <input type="text" class="jscolor color-select" id="bgcolor" name="bgcolor" data-bind="value: bg">
+            
+            <br>
+            <button type="submit" class="submit-button">Generate QR Code</button>
+        </form>
+        
+        <br>
+        {% if qr_image %}
+        <h2>GENERATED QR CODE:</h2>
+        <img id="qr-code" src="{{ qr_image }}" alt="QR Code">
+        {% endif %}
+    </div>
+    <div>
+        {% if qr_image %}
+<a href="{{ qr_image }}" download="qrcode.png" class="download-link">
+    <button type="button" class="download-button">Download QR Code</button>
+</a>
+{% endif %}
+
+    </div>
+</body>
+</html>
