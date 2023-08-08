@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>QR Code Generator using Flask</title>
+  
 </head>
 
 <body>
