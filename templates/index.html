@@ -109,6 +109,22 @@
             text-align: center;
         }
 
+        .qr-code-image {
+    border: 2px solid #39ff14;
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0px 0px 10px rgba(57, 255, 20, 0.7);
+    transition: transform 0.5s ease-in-out;
+}
+
+.qr-code-image:hover {
+    transform: scaleX(-1);
+}
+
+
+
+
+
         img#qr-code {
     border: 2px solid #39ff14; /* Neon Green color */
     border-radius: 8px;
@@ -263,7 +279,7 @@
         <br>
         {% if qr_image %}
         <h2>GENERATED QR CODE:</h2>
-        <img id="qr-code" src="{{ qr_image }}" alt="QR Code">
+        <img id="qr-code" class="qr-code-image" src="{{ qr_image }}" alt="QR Code">
         {% endif %}
     </div>
     <div>
